@@ -8,36 +8,26 @@ namespace BeehiveManagementSystem
 {
     static class HoneyVault
     {
-        private const float NECTAR_CONVERSION_RATIO = .19f;
-        private const float LOW_LEVEL_WARNING = 10f;
+        public const float NECTAR_CONVERSION_RATIO = 0.19f;
+        public const float LOW_LEVEL_WARNING = 10f;
 
-        private static string statusReport = $"Vault Report:\n{honey} units of Honey\n{nectar} units of Nectar";
-        private static string honeyWarning = "\nLOW HONEY - ADD A MANUFACTURER";
-        private static string nectarWarning = "\nLOW NECTAR - ADD A MANUFACTURER";
-
-
-        public static string StatusReport 
+        public static string Status 
         { 
             get 
             {
-                if (nectar < LOW_LEVEL_WARNING && honey < LOW_LEVEL_WARNING)
+                string status = $"{honey:0.0} units of Honey\n{nectar:0,0} units of Nectar";
+                string warnings = "";
+
+                if(honey < LOW_LEVEL_WARNING)
                 {
-                    return statusReport + honeyWarning + nectarWarning;
+                    warnings += "\nLOW HONEY - ADD A MANUFACTURER";
+
                 }
-                else if (honey < LOW_LEVEL_WARNING)
+                if (nectar < LOW_LEVEL_WARNING)
                 {
-                    return statusReport + honeyWarning;
+                    warnings += "\nLOW NECTAR - ADD A MANUFACTURER";
                 }
-                else if (nectar < LOW_LEVEL_WARNING)
-                {
-                    return statusReport + nectarWarning;
-                }
-                else
-                {
-                    return statusReport;
-                }
-                
-                
+                return status + warnings;
             }
         }
 
@@ -46,7 +36,7 @@ namespace BeehiveManagementSystem
 
         public static void CollectNectar(float amount)
         {
-            if (amount > 0)
+            if (amount > 0f)
             {
                 nectar += amount;
             }
@@ -54,16 +44,11 @@ namespace BeehiveManagementSystem
 
         public static void ConvertNectarToHoney(float amount)
         {
-            if (amount >= nectar)
-            {
-                nectar -= amount;
-                honey += amount * NECTAR_CONVERSION_RATIO;
-            }
-            else
-            {
-                honey += nectar * NECTAR_CONVERSION_RATIO;
-                nectar = 0f;
-            }
+            float nectarToConvert = amount;
+            if (nectarToConvert > nectar) nectarToConvert = nectar;
+            nectar -= nectarToConvert;
+            honey += nectarToConvert * NECTAR_CONVERSION_RATIO;
+            
             
         }
 
@@ -74,10 +59,8 @@ namespace BeehiveManagementSystem
                 honey -= amount;
                 return true;
             }
-            else
-            {
-                return false;
-            }
+            return false;
+            
         }
 
     }
