@@ -6,20 +6,12 @@ using System.Threading.Tasks;
 
 namespace BeehiveManagementSystem
 {
-    class Bee
+    abstract class Bee
     {
-        public string Job
-        {
-            get;
-            private set;
-        }
+        public string Job { get; private set;}
         public Bee(string job){ Job = job;}
 
-        public virtual float CostPerShift 
-        {
-            get;
-            
-        }
+        public abstract float CostPerShift { get; }
 
         public void WorkNextShift()
         {
@@ -28,11 +20,7 @@ namespace BeehiveManagementSystem
                 DoJob();
             }
         }
-        protected virtual void DoJob()
-        {
-            Console.WriteLine("This should never get called");
-        }
-        
+        protected abstract void DoJob();
 
 
     }
