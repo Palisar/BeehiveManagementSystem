@@ -18,7 +18,7 @@ namespace BeehiveManagementSystem
             AssignBee("Honey Manufacturer");
         }
 
-        private List<Bee> workers = new List<Bee>();
+        private List<IWorker> workers = new List<IWorker>();
         private float eggs = 0;
         
         private float unassignedWorkers = 3;
@@ -62,7 +62,7 @@ namespace BeehiveManagementSystem
         protected override void DoJob()
         {
             eggs += EGGS_PER_SHIFT;
-            foreach (Bee bee in workers)
+            foreach (IWorker bee in workers)
             {
                 bee.WorkNextShift();
             }
